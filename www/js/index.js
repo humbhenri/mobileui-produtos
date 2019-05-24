@@ -18,16 +18,16 @@ var app = {
 
         db.transaction(function (tx) {
             tx.executeSql('CREATE TABLE IF NOT EXISTS Produtos(Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Nome TEXT NOT NULL, Preco TEXT NOT NULL)');
-            console.log('OK ;)')
+            console.log('tabela criada');
         })
     },
-
-    insere: function() {
+    insere: function(){
         db.transaction(function (tx) {
-            const nome = document.getElementById('nome').value;
-            const preco = document.getElementById('preco').value;
-            console.log(nome, preco)
-            tx.executeSql(`insert into Produtos(Nome, Preco) values (${nome}, ${preco})`);
-        })
+            var nome = document.getElementById('nome').value;
+            var preco = document.getElementById('preco').value;
+
+            tx.executeSql('INSERT INTO Produtos(Nome,Preco) values("' + nome + '","' + preco + '")');
+            console.log('inseriu');
+        });
     }
-};
+}
