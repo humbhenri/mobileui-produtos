@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="mobileui/style.css">
+  <meta name="format-detection" content="telephone=no">
+  <meta charset="utf-8">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta name="viewport"
+    content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <title>Produtos</title>
+</head>
+
+<body>
+  <div class="header blue">
+    <div class="left">
+      <button onclick="openMenu('myFirstMenu')" class="icon ion-navicon-round"></button>
+    </div>
+    <h1>Produtos</h1>
+    <div class="right">
+      <button class="icon ion-search"></button>
+      <button class="icon ion-android-more-vertical"></button>
+    </div>
+  </div>
+  <div class="content has-header has-footer">
+    <div class="list">
+      <div class="item">
+        <h2>1</h2>
+      </div>
+    </div>
+  </div>
+  <div class="footer blue-900">
+    <div class="title">
+      Bateria X%
+    </div>
+  </div>
+
+  <!-- O Menu -->
+  <div class="menu grey-100" id="myFirstMenu">
+    <button class="blue full" onclick="closeMenu('myFirstMenu')">Close menu </button>
+    <div class="list">
+      <div class="item"><a>Cadastrar</a></div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="cordova.js"></script>
+  <script type="text/javascript" src="mobileui/mobileui.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
+</body>
+
+</html>
