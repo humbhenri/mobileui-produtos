@@ -33,9 +33,12 @@ var app = {
                 `INSERT INTO Produtos(Nome,Preco, Codbarras) values('${nome}', '${preco}', ${codbarras})`
             );
             console.log('inseriu');
-            codbarras = ''
+            codbarras = '';
             document.getElementById('nome').value = '';
             document.getElementById('preco').value = '';
+            navigator.vibrate(1000);
+            alert('Inserido com sucesso')
+            backPage();
         });
     },
     scan: function() {
