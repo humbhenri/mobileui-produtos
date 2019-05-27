@@ -23,6 +23,8 @@ var app = {
             );
             console.log('tabela criada');
         });
+
+        app.lista();
     },
     insere: function() {
         db.transaction(function(tx) {
@@ -30,15 +32,46 @@ var app = {
             var preco = document.getElementById('preco').value;
 
             tx.executeSql(
-                `INSERT INTO Produtos(Nome,Preco, Codbarras) values('${nome}', '${preco}', ${codbarras})`
+                `INSERT INTO Produtos(Nome,Preco, Codbarras) values('${nome}', '${preco}', '${codbarras}')`
             );
             console.log('inseriu');
             codbarras = '';
             document.getElementById('nome').value = '';
             document.getElementById('preco').value = '';
             navigator.vibrate(1000);
-            alert('Inserido com sucesso')
+            alert('Inserido com sucesso');
             backPage();
+            app.lista();
+        });
+    },
+    lista: function() {
+        $('#lista_produtos').html('');
+        db.transaction(function(tx) {
+            tx.executeSql(
+                'SELECT * FROM produtos',
+                [],
+                (_, result) => {
+                    $(result.rows).each((i, produto) => {
+                        let conteudo = `<div class="item">
+                                        <h2>${produto.Nome}</h2>
+                                        <p class="text-grey-500">R$ ${
+                                            produto.Preco
+                                        } </p>
+                                        <p class="text-grey-500">${
+                                            produto.Codbarras
+                                        } </p>
+                                        <button class="red icon-text" onclick="app.delete(${
+                                            produto.Id
+                                        })">
+                                            <i class="icon ion-trash-b"></i>
+                                            Delete
+                                        </button>
+                                    </div>`;
+                        $('#lista_produtos').append(conteudo);
+                    });
+                },
+                () => {}
+            );
         });
     },
     scan: function() {
@@ -54,5 +87,21 @@ var app = {
                 alert(error);
             }
         );
+    },
+    delete: function(id) {
+        console.log(id);
+        db.transaction(function(tx) {
+            tx.executeSql(
+                'delete from Produtos where Id = ?',
+                [id],
+                () => {
+                    alert('Removido com sucesso :)');
+                    app.lista();
+                },
+                () => {
+                    alert('Um erro aconteceu :(');
+                }
+            );
+        });
     }
 };
