@@ -105,4 +105,6 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+    <plugin name="phonegap-plugin-barcodescanner" spec="~8.0.1" />
+    <engine name="android" spec="~7.1.4" />
 </widget>
