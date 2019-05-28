@@ -16,8 +16,12 @@ var app = {
             icon = 'ion-battery-charging';
         } else if (status.level == 100) {
             icon = 'ion-battery-full';
-        } else {
+        } else if (status.level > 50) {
             icon = 'ion-battery-half';
+        } else if (status.level > 2) {
+            icon = 'ion-battery-low';
+        } else {
+            icon = 'ion-battery-empty';
         }
 
         $('#bateria').html(
