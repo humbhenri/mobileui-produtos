@@ -8,6 +8,21 @@ var codbarras = '';
 var app = {
     onDeviceReady: function() {
         app.startDB();
+        window.addEventListener('batterystatus', app.onBatteryStatus, false);
+    },
+    onBatteryStatus: function(status) {
+        let icon;
+        if (status.isPlugged) {
+            icon = 'ion-battery-charging';
+        } else if (status.level == 100) {
+            icon = 'ion-battery-full';
+        } else {
+            icon = 'ion-battery-half';
+        }
+
+        $('#bateria').html(
+            `<span class="icon ${icon}"> ${status.level} %</span>`
+        );
     },
     startDB: function() {
         if (!window.openDatabase) {
@@ -60,7 +75,7 @@ var app = {
                                         <p class="text-grey-500">${
                                             produto.Codbarras
                                         } </p>
-                                        <button class="red icon-text" onclick="app.delete(${
+                                        <button class="red icon-text radius full" onclick="app.delete(${
                                             produto.Id
                                         })">
                                             <i class="icon ion-trash-b"></i>
@@ -70,7 +85,9 @@ var app = {
                         $('#lista_produtos').append(conteudo);
                     });
                 },
-                () => {}
+                () => {
+                    alert('Um erro aconteceu :(');
+                }
             );
         });
     },
@@ -89,19 +106,41 @@ var app = {
         );
     },
     delete: function(id) {
-        console.log(id);
-        db.transaction(function(tx) {
-            tx.executeSql(
-                'delete from Produtos where Id = ?',
-                [id],
-                () => {
-                    alert('Removido com sucesso :)');
-                    app.lista();
-                },
-                () => {
-                    alert('Um erro aconteceu :(');
-                }
-            );
-        });
+        const deleteFn = function(tx, id) {
+            alert({
+                title: 'Alert',
+                message: 'Are you sure you want to delete this item?',
+                class: 'red',
+                buttons: [
+                    {
+                        label: 'YES',
+                        class: 'red-900',
+                        onclick: function() {
+                            db.transaction(function(tx) {
+                                tx.executeSql(
+                                    'delete from Produtos where Id = ?',
+                                    [id],
+                                    () => {
+                                        alert('Removido com sucesso :)');
+                                        app.lista();
+                                    },
+                                    () => {
+                                        alert('Um erro aconteceu :(');
+                                    }
+                                );
+                            });
+                        }
+                    },
+                    {
+                        label: 'NO',
+                        class: 'text-white',
+                        onclick: function() {
+                            closeAlert();
+                        }
+                    }
+                ]
+            });
+        };
+        deleteFn(id);
     }
 };
